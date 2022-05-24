@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from 'react-redux'
+import Settings from './Components/Settings'
+import Question from './Components/Question'
+import FinalScreen from './Components/FinalScreen'
+import './App.css'
+
 
 function App() {
+  const questions = useSelector((state) => state.questions)
+  const questionIndex = useSelector((state) => state.index)
+
+  let component
+
+  if (questions.length && questionIndex + 1 <= questions.length) {
+    component = <Question />
+  } else if (!questions.length) {
+    component = <Settings />
+  } else {
+    component = <FinalScreen />
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app-container">{component}</div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
